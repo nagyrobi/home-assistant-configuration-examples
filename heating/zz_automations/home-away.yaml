@@ -20,9 +20,6 @@
     data:
       entity_id: climate.heater
       preset_mode: none
-  - service: climate.turn_on
-    data:
-      entity_id: climate.heater
   - service: input_boolean.turn_on
     data:
       entity_id: 'input_boolean.heating_timer_switch'
