@@ -13,7 +13,7 @@
     below: '12'
   - platform: state
     entity_id: 'group.doors_and_windows'
-    to: 'off'
+    to: 'off' # not tested
   condition:
     condition: and
     conditions:
@@ -40,7 +40,7 @@
     above: '17'
   - platform: state
     entity_id: 'group.doors_and_windows'
-    to: 'on'
+    to: 'on'  # not tested
   condition:
     condition: and
     conditions:
