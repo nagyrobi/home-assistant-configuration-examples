@@ -34,4 +34,45 @@ Timer can be overridden with a separate `Heating override` switch. It can be spe
 The system will automatically switch to away mode when the presence detection reports this. The climate configuration has a temperature value set for away mode, and the schedules don't run while away. 
 Monitoring both outside temperature and also weather forecast temperature helps turning off the system when it's warm enough in the environment, thus saving precious energy.
 
+## Lovelace config
+
+```yaml
+type: horizontal-stack
+cards:
+  - type: entities
+    entities:
+      - entity: input_number.heating_temp_morning
+      - entity: input_number.heating_temp_day
+      - entity: input_number.heating_temp_evening
+      - entity: input_number.heating_temp_night
+    title: Desired temperatures
+    show_header_toggle: false
+  - type: entities
+    title: Workday timings
+    entities:
+      - entity: input_datetime.heating_weekday_morning_start
+      - entity: input_datetime.heating_weekday_day_start
+      - entity: input_datetime.heating_weekday_evening_start
+      - entity: input_datetime.heating_weekday_night_start
+    show_header_toggle: false
+    state_color: false
+  - type: entities
+    title: Free day timings
+    entities:
+      - entity: input_datetime.heating_weekend_morning_start
+      - entity: input_datetime.heating_weekend_day_start
+      - entity: input_datetime.heating_weekend_evening_start
+      - entity: input_datetime.heating_weekend_night_start
+    show_header_toggle: false
+  - type: entities
+    entities:
+      - entity: input_boolean.heating_timer_switch
+      - entity: input_boolean.heating_override_switch
+      - entity: input_number.heating_temp_override
+      - entity: input_datetime.heating_override_until
+    title: Override
+    show_header_toggle: false
+
+```
+
 Forum discussion: https://community.home-assistant.io/t/smart-heating-control-with-home-assistant/237966
