@@ -1,14 +1,14 @@
 # Smart heating control for Home Assistant
 
-I've put together a heating control system for my house using Home Assistant. Since it took quite a lot of work, I thought I'd share it for anyone trying to achieve something similar. It all started from  the solution on [this page](https://www.earth.li/~noodles/blog/2018/10/heating-automation.html) but I wanted a more flexible approach - however it was excellent to set the base to start from. The goal was also to have all configuration available in Lovelace GUI and no need to edit config files in order to change operational parameters.
+I've put together a heating control system for my house using Home Assistant. This completely replaces any hardware thermostat, all decisions are done in software by the system. Since it took quite a lot of work, I thought I'd share it for anyone trying to achieve something similar. It all started from  the solution on [this page](https://www.earth.li/~noodles/blog/2018/10/heating-automation.html) but I wanted a more flexible approach - however it was excellent to set the base to start from. The goal was also to have all configuration available in Lovelace GUI and no need to edit config files in order to change operational parameters.
 
 ![Lovelace UI](https://raw.githubusercontent.com/nagyrobi/home-assistant-configuration-examples/main/heating/heating_lovelace_small.jpg)
 
 ## Features
 - split the days in 4 time segments, separately for workdays and free days (morning, daytime, evening, nighttime)
-- set different temperature levels for each time segment
+- schedule different temperature levels for each time segment
 - adjust the main thermostat based on the average temperature of all the rooms
-- provide an override system for holiday/party mode (a predefined period until a different temperature level can be set, which when ends, returns to the schedule
+- provide an override system for holiday/party mode (a predefined period until a different temperature level can be set, which when ends, returns to the schedule)
 - automatic home/away mode switching based on presence detection
 - automatic on/off switching based on outside temperature and weather forecast temperature
 
@@ -32,4 +32,3 @@ Each day is split into morning, daytime, evening, nighttime periods, the startin
 Timer can be overridden with a separate `Heating override` switch. It can be specified `Until` when (with both date and time) to hold the override and return to the timer mode. This can be useful to have a fixed temperature level set regardless of the timing, and have it finish automatically after a deadline. Note that override applies to home/away and weather on/off automations too, so with this, away mode will not trigger, and the system will continue to operate regardless of the outdoor temperatures.
 
 The system will automatically switch to away mode when the presence detection reports this. The climate configuration has a temperature value set for away mode. Monitoring both outside temperature and also weather forecast temperature helps turning off the system when it's warm enough in the environment, thus saving precious energy.
-
