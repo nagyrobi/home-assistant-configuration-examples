@@ -7,7 +7,7 @@
     entity_id: 'input_boolean.heating_timer_switch'
     to: 'on'
   - platform: template
-    value_template: "{{ not is_state_attr('climate.futes', 'preset_mode', 'away') }}"
+    value_template: "{{ not is_state_attr('climate.heater', 'preset_mode', 'away') }}"
   action:
   - choose:
     - conditions:
