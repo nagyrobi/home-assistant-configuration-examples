@@ -21,7 +21,7 @@ I have my Home Assistant config set up using [splitting method](https://www.home
 - weather forecast service [set up in Home Assistant](https://www.home-assistant.io/integrations/openweathermap/) 
 - a device tracker integration to monitor for [presence detection](https://www.home-assistant.io/integrations/snmp/#precense-detection)
 - [average](https://github.com/Limych/ha-average) custom component installed
-- optionally [mini climate card](https://github.com/artem-sedykh/mini-climate-card) for the main thermostat in the frontend
+- optionally [simple thermostat card](https://github.com/nervetattoo/simple-thermostat) for the main thermostat in the frontend
 
 ## How it works from the user's perspective
 
