@@ -33,3 +33,5 @@ Timer can be overridden with a separate `Heating override` switch. It can be spe
 
 The system will automatically switch to away mode when the presence detection reports this. The climate configuration has a temperature value set for away mode, and the schedules don't run while away. 
 Monitoring both outside temperature and also weather forecast temperature helps turning off the system when it's warm enough in the environment, thus saving precious energy.
+
+Forum discussion: https://community.home-assistant.io/t/smart-heating-control-with-home-assistant/237966
