@@ -10,7 +10,7 @@ I've put together a heating control system for my house using Home Assistant. Th
 - adjust the main thermostat based on the average temperature of all the rooms
 - provide an override system for holiday/party mode (a predefined period until a different temperature level can be set, which when ends, returns to the schedule)
 - automatic home/away mode switching based on presence detection
-- automatic on/off switching based on outside temperature, weather forecast temperature, door/window opening sensor
+- automatic on/off switching based on outside temperature, weather forecast temperature, door/window opening sensors
 
 ## Configuration layout
 I have my Home Assistant config set up using [splitting method](https://www.home-assistant.io/docs/configuration/splitting_configuration/) which I recommend anyone who wants to have a more flexible way of setting up things. Configuration items can be separated in sub-folders based on integration types, and they can be further split in multiple yaml files, which is great because if any config has to be excluded or temporarily taken out, all it takes is to rename the extension of the filename to something else and restart Home Assistant. I share my heating control solution in this layout - I've only left in the configuration items related to it. This way most of the things are self-explanatory.
