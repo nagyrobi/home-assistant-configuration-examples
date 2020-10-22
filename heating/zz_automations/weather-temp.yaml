@@ -1,0 +1,50 @@
+##### Automations for on/off based on otside temp
+
+- id: heating_on_outside_temp
+  alias: Heating outside if too cold on
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.outdoors_temperature
+    below: '14'
+  - platform: numeric_state
+    entity_id: sensor.weather_forecast_temperature
+    below: '12'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_override_switch'
+      state: 'off'
+    - condition: template
+      value_template: "{{ ( as_timestamp(now()) - as_timestamp(state_attr('automation.heating_on_outside_temp', 'last_triggered')) | int(0) ) > 3600 }}"
+    - condition: template
+      value_template: "{{ ( as_timestamp(now()) - as_timestamp(state_attr('automation.heating_off_outside_temp', 'last_triggered')) | int(0) ) > 3600 }}"
+  action:
+  - service: climate.turn_on
+    data:
+      entity_id: climate.heater
+
+- id: heating_off_outside_temp
+  alias: Heating outside if warm enough off
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.outdoors_temperature
+    above: '15'
+  - platform: numeric_state
+    entity_id: sensor.weather_forecast_temperature
+    above: '17'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_override_switch'
+      state: 'off'
+    - condition: template
+      value_template: "{{ ( as_timestamp(now()) - as_timestamp(state_attr('automation.heating_off_outside_temp', 'last_triggered')) | int(0) ) > 3600 }}"
+    - condition: template
+      value_template: "{{ ( as_timestamp(now()) - as_timestamp(state_attr('automation.heating_on_outside_temp', 'last_triggered')) | int(0) ) > 3600 }}"
+  action:
+  - service: climate.turn_off
+    data:
+      entity_id: climate.heater
+

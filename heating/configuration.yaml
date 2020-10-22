@@ -1,0 +1,57 @@
+automation: !include_dir_merge_list zz_automations/
+switch: !include_dir_merge_list zz_switch/
+sensor: !include_dir_merge_list zz_sensor/
+climate: !include_dir_merge_list zz_climate/
+binary_sensor: !include_dir_merge_list zz_binary/
+input_datetime: !include zz_etc/input_datetime.yaml
+
+group:
+  family:
+    name: Family
+    entities:
+      - person.mom
+      - person.dad
+      - person.koolboy
+      - person.koolgirl
+
+input_boolean:
+  heating_timer_switch:
+    name: Heating timer enable
+    icon: mdi:fire
+  heating_override_switch:
+    name: Heating override
+    icon: mdi:fire
+
+input_number:
+  heating_temp_morning:
+    name: Morning
+    min: 19
+    max: 25
+    step: 0.1
+    icon: mdi:home-thermometer-outline
+  heating_temp_day:
+    name: Daytime
+    min: 19
+    max: 25
+    step: 0.1
+    icon: mdi:home-thermometer-outline
+  heating_temp_evening:
+    name: Evening
+    min: 19
+    max: 25
+    step: 0.1
+    icon: mdi:home-thermometer-outline
+  heating_temp_night:
+    name: Nighttime
+    min: 19
+    max: 25
+    step: 0.1
+    icon: mdi:home-thermometer-outline
+  heating_temp_override:
+    name: Override temp
+    min: 14
+    max: 28
+    step: 0.5
+    icon: mdi:home-thermometer-outline
+
+

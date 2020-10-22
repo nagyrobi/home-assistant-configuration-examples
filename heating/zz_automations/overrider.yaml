@@ -1,0 +1,55 @@
+##### Overrider
+
+- id: heating_override_disable_timerswitch
+  alias: Heating override disable timers when overriding
+  trigger:
+  - platform: state
+    entity_id: 'input_boolean.heating_override_switch'
+    to: 'on'
+  action:
+  - service: input_datetime.set_datetime
+    entity_id: input_datetime.heating_override_until
+    data:
+      datetime: "{{ (as_timestamp(now()) + 3600 | float) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
+  - service: input_boolean.turn_off
+    data:
+      entity_id: 'input_boolean.heating_timer_switch'
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_override') }}"
+
+- id: heating_override_enable_timerswitch
+  alias: Heating override done enable timers
+  trigger:
+  - platform: state
+    entity_id: 'input_boolean.heating_override_switch'
+    to: 'off'
+  action:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: 'input_boolean.heating_timer_switch'
+
+- id: heating_override_disable_overide_with_timerswitch
+  alias: Heating override disable when enable timers
+  trigger:
+  - platform: state
+    entity_id: 'input_boolean.heating_timer_switch'
+    to: 'on'
+  action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: 'input_boolean.heating_override_switch'
+
+- id: heating_override_disable_overide_when_deadline
+  alias: Heating override disable when deadline reached
+  trigger:
+    platform: template
+    value_template: "{{ (as_timestamp(states('sensor.date_time_iso')) | timestamp_custom('%Y-%m-%d %H:%M')) == (state_attr('input_datetime.heating_override_until','timestamp') | timestamp_custom('%Y-%m-%d %H:%M', True))}}"
+  action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: 'input_boolean.heating_override_switch'
+
+
+

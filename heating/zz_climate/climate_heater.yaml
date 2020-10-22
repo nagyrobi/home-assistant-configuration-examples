@@ -1,0 +1,14 @@
+  - platform: generic_thermostat
+    name: Heater
+    heater: switch.heater
+    target_sensor: sensor.average_rooms_temperature
+    min_temp: 16
+    max_temp: 26
+    cold_tolerance: 0.2
+    hot_tolerance: 0.2
+    away_temp: 20.5
+    precision: 0.1
+    initial_hvac_mode: "heat"
+    min_cycle_duration:
+      minutes: 10
+

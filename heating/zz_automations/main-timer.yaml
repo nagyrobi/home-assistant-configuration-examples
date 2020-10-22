@@ -1,0 +1,167 @@
+##### Automations for heating timer
+##### Workdays
+
+- id: heating_morning_on_wd
+  alias: Heating set temp (weekday mornings)
+  trigger:
+    platform: template
+    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekday_morning_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_morning') }}"
+
+- id: heating_daytime_on_wd
+  alias: Heating set temp (weekday daytime)
+  trigger:
+    platform: template
+    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekday_day_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_day') }}"
+
+- id: heating_evening_on_wd
+  alias: Heating set temp (weekday evenings)
+  trigger:
+    platform: template
+    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekday_evening_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_evening') }}"
+
+- id: heating_nighttime_on_wd
+  alias: Heating set temp (weekday nightime)
+  trigger:
+    platform: template
+    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekday_night_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_night') }}"
+
+
+
+##### Weekends
+
+- id: heating_morning_on_we
+  alias: Heating set temp (weekend mornings)
+  trigger:
+    platform: template
+    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekend_morning_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_morning') }}"
+
+- id: heating_daytime_on_we
+  alias: Heating set temp (weekend daytime)
+  trigger:
+    platform: template
+    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekend_day_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_day') }}"
+
+- id: heating_evening_on_we
+  alias: Heating set temp (weekend evenings)
+  trigger:
+    platform: template
+    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekend_evening_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_evening') }}"
+
+- id: heating_nighttime_on_we
+  alias: Heating set temp (weekend nightime)
+  trigger:
+    platform: template
+    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekend_night_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_night') }}"
+

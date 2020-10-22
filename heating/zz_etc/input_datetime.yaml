@@ -1,0 +1,49 @@
+heating_weekday_morning_start:
+  name: Hétköznap reggel
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-seven-outline
+heating_weekday_day_start:
+  name: Hétköznap napközben
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-nine-outline
+heating_weekday_evening_start:
+  name: Hétköznap este
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-four-outline
+heating_weekday_night_start:
+  name: Hétköznap éjszaka
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-eleven-outline
+
+heating_weekend_morning_start:
+  name: Hétvége reggel
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-seven-outline
+heating_weekend_day_start:
+  name: Hétvége napközben
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-nine-outline
+heating_weekend_evening_start:
+  name: Hétvége este
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-four-outline
+heating_weekend_night_start:
+  name: Hétvége éjszaka
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-eleven-outline
+
+heating_override_until:
+  name: Meddig
+  has_time: true
+  has_date: true
+  icon: mdi:progress-clock
+
+
