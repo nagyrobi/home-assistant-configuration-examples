@@ -1,5 +1,6 @@
 ##### Automations for on/off based on otside temp .
 ##### levels hardcoded in the automation, but easy to set them up to input_number if anyone wants to drag these too from Lovelace
+##### group.doors_and_windows can be a group of door/window opening switches. If any window is open, turn off the thermostat. 
 
 - id: heating_on_outside_temp
   alias: Heating outside if too cold on
@@ -10,6 +11,9 @@
   - platform: numeric_state
     entity_id: sensor.weather_forecast_temperature
     below: '12'
+  - platform: state
+    entity_id: 'group.doors_and_windows'
+    to: 'off'
   condition:
     condition: and
     conditions:
@@ -34,6 +38,9 @@
   - platform: numeric_state
     entity_id: sensor.weather_forecast_temperature
     above: '17'
+  - platform: state
+    entity_id: 'group.doors_and_windows'
+    to: 'on'
   condition:
     condition: and
     conditions:
@@ -48,4 +55,3 @@
   - service: climate.turn_off
     data:
       entity_id: climate.heater
-
