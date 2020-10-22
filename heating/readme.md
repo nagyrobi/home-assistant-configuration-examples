@@ -31,4 +31,5 @@ Each day is split into morning, daytime, evening, nighttime periods, the startin
 
 Timer can be overridden with a separate `Heating override` switch. It can be specified `Until` when (with both date and time) to hold the override and return to the timer mode. This can be useful to have a fixed temperature level set regardless of the timing, and have it finish automatically after a deadline. Note that override applies to home/away and weather on/off automations too, so with this, away mode will not trigger, and the system will continue to operate regardless of the outdoor temperatures.
 
-The system will automatically switch to away mode when the presence detection reports this. The climate configuration has a temperature value set for away mode. Monitoring both outside temperature and also weather forecast temperature helps turning off the system when it's warm enough in the environment, thus saving precious energy.
+The system will automatically switch to away mode when the presence detection reports this. The climate configuration has a temperature value set for away mode, and the schedules don't run while away. 
+Monitoring both outside temperature and also weather forecast temperature helps turning off the system when it's warm enough in the environment, thus saving precious energy.
