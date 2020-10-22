@@ -1,6 +1,6 @@
 ##### Automations for on/off based on otside temp .
 ##### levels hardcoded in the automation, but easy to set them up to input_number if anyone wants to drag these too from Lovelace
-##### group.doors_and_windows can be a group of door/window opening switches. If any window is open, turn off the thermostat. 
+##### group.doors_and_windows can be a group of door/window opening sensors. If any window is open, turn off the thermostat. When all the windows or doors are closed, turn it back on.
 
 - id: heating_on_outside_temp
   alias: Heating outside if too cold on
