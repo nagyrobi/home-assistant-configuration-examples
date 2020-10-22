@@ -1,4 +1,5 @@
-##### Automations for on/off based on otside temp
+##### Automations for on/off based on otside temp .
+##### levels hardcoded in the automation, but easy to set them up to input_number if anyone wants to drag these too from Lovelace
 
 - id: heating_on_outside_temp
   alias: Heating outside if too cold on
