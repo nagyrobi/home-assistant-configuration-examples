@@ -1,11 +1,13 @@
-##### Select the appropriate temperature based on what time it is when enabling timer switch
+##### Select the appropriate temperature based on what time it is when enabling timer switch or leaving from away mode
 
 - id: heating_timerswitch_on_choose_temp
-  alias: Heating when enabling timer select the appropriate temperature
+  alias: Heating when enabling timer or restoring from away select the appropriate temperature
   trigger:
   - platform: state
     entity_id: 'input_boolean.heating_timer_switch'
     to: 'on'
+  - platform: template
+    value_template: "{{ not is_state_attr('climate.futes', 'preset_mode', 'away') }}"
   action:
   - choose:
     - conditions:
