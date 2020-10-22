@@ -22,6 +22,7 @@ I have my Home Assistant config set up using [splitting method](https://www.home
 - a device tracker integration to monitor for [presence detection](https://www.home-assistant.io/integrations/snmp/#precense-detection)
 - [average](https://github.com/Limych/ha-average) custom component installed
 - optionally [simple thermostat card](https://github.com/nervetattoo/simple-thermostat) for the main thermostat in the frontend
+- optionally some door/window opening sensors, configured in a group of binary sensors, to detect when any of them is open
 
 ## How it works from the user's perspective
 
