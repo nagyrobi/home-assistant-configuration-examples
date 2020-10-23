@@ -6,7 +6,7 @@
     max_temp: 26
     cold_tolerance: 0.2
     hot_tolerance: 0.2
-    away_temp: 20.5
+    away_temp: 20.5 # has to be set from here
     precision: 0.1
     initial_hvac_mode: "heat"
     min_cycle_duration:
