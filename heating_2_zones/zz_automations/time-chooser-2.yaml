@@ -1,5 +1,5 @@
 ##### Select the appropriate temperature based on what time it is when enabling timer switch or leaving from away mode
-## For Zone 2
+## For Zone 2 
 
 - id: heating2_timerswitch_on_choose_temp
   alias: Heating zone 2 when enabling timer or restoring from away select the appropriate temperature
