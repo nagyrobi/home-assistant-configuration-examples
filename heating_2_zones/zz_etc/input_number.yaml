@@ -1,0 +1,64 @@
+# Temps for Zone 1
+heating_temp1_morning:
+  name: Morning
+  min: 19
+  max: 25
+  step: 0.1
+  icon: mdi:home-thermometer-outline
+heating_temp1_day:
+  name: Daytime
+  min: 19
+  max: 25
+  step: 0.1
+  icon: mdi:home-thermometer-outline
+heating_temp1_evening:
+  name: Evening
+  min: 19
+  max: 25
+  step: 0.1
+  icon: mdi:home-thermometer-outline
+heating_temp1_night:
+  name: Nighttime
+  min: 19
+  max: 25
+  step: 0.1
+  icon: mdi:home-thermometer-outline
+heating_temp1_override:
+  name: Override1
+  min: 14
+  max: 28
+  step: 0.5
+  icon: mdi:home-thermometer-outline
+
+# Temps for Zone 2
+heating_temp2_morning:
+  name: Morning
+  min: 19
+  max: 25
+  step: 0.1
+  icon: mdi:home-thermometer-outline
+heating_temp2_day:
+  name: Daytime
+  min: 19
+  max: 25
+  step: 0.1
+  icon: mdi:home-thermometer-outline
+heating_temp2_evening:
+  name: Evening
+  min: 19
+  max: 25
+  step: 0.1
+  icon: mdi:home-thermometer-outline
+heating_temp2_night:
+  name: Nighttime
+  min: 19
+  max: 25
+  step: 0.1
+  icon: mdi:home-thermometer-outline
+heating_temp2_override:
+  name: Override2
+  min: 14
+  max: 28
+  step: 0.5
+  icon: mdi:home-thermometer-outline
+

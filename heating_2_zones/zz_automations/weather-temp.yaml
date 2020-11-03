@@ -1,0 +1,58 @@
+##### Automations for on/off based on otside temp .
+##### levels hardcoded in the automation, but easy to set them up to input_number if anyone wants to drag these too from Lovelace
+##### group.doors_and_windows can be a group of door/window opening sensors. If any window is open, turn off the thermostat. When all the windows or doors are closed, turn it back on.
+
+- id: heating_on_outside_temp
+  alias: Heating outside if too cold on
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.outdoors_temperature
+    below: '14'
+  - platform: numeric_state
+    entity_id: sensor.weather_forecast_temperature
+    below: '16'
+  - platform: state
+    entity_id: 'group.doors_and_windows'
+    to: 'off' # not tested
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_override_switch'
+      state: 'off'
+    - condition: template
+      value_template: "{{ ( as_timestamp(now()) - as_timestamp(state_attr('automation.heating_on_outside_temp', 'last_triggered')) | int(0) ) > 3600 }}"
+    - condition: template
+      value_template: "{{ ( as_timestamp(now()) - as_timestamp(state_attr('automation.heating_off_outside_temp', 'last_triggered')) | int(0) ) > 3600 }}"
+  action:
+  - service: climate.turn_on
+    data:
+      entity_id: climate.heater_1,climate.heater_2
+
+- id: heating_off_outside_temp
+  alias: Heating outside if warm enough off
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.outdoors_temperature
+    above: '15'
+  - platform: numeric_state
+    entity_id: sensor.weather_forecast_temperature
+    above: '20'
+  - platform: state
+    entity_id: 'group.doors_and_windows'
+    to: 'on' # not tested
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_override_switch'
+      state: 'off'
+    - condition: template
+      value_template: "{{ ( as_timestamp(now()) - as_timestamp(state_attr('automation.heating_off_outside_temp', 'last_triggered')) | int(0) ) > 3600 }}"
+    - condition: template
+      value_template: "{{ ( as_timestamp(now()) - as_timestamp(state_attr('automation.heating_on_outside_temp', 'last_triggered')) | int(0) ) > 3600 }}"
+  action:
+  - service: climate.turn_off
+    data:
+      entity_id: climate.heater_1,climate.heater_2
+

@@ -1,0 +1,92 @@
+- id: heating_timer_follow_temp1_morning_when_modifying
+  alias: Heating zone 1 thermostat follow morning temp when changed
+  trigger:
+  - platform: state
+    entity_id: 'input_number.heating_temp1_morning'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+    - condition: template
+      value_template: >
+        {% set t = now().timestamp()-strptime(now().strftime("%Y-%m-%d 00:00:00"),"%Y-%m-%d %H:%M:%S").timestamp() %}
+        {% set time_start = state_attr('input_datetime.heating_weekday_morning_start','timestamp') %}
+        {% set time_end = state_attr('input_datetime.heating_weekday_day_start','timestamp') %}
+        {{ time_start <= t < time_end and is_state('binary_sensor.workday_sensor', 'on')}}
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater_1
+      temperature: "{{ states('input_number.heating_temp1_morning') }}"
+
+- id: heating_timer_follow_temp1_day_when_modifying
+  alias: Heating zone 1 thermostat follow day temp when changed
+  trigger:
+  - platform: state
+    entity_id: 'input_number.heating_temp1_day'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+    - condition: template
+      value_template: >
+        {% set t = now().timestamp()-strptime(now().strftime("%Y-%m-%d 00:00:00"),"%Y-%m-%d %H:%M:%S").timestamp() %}
+        {% set time_start = state_attr('input_datetime.heating_weekday_day_start','timestamp') %}
+        {% set time_end = state_attr('input_datetime.heating_weekday_evening_start','timestamp') %}
+        {{ time_start <= t < time_end and is_state('binary_sensor.workday_sensor', 'on')}}
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater_1
+      temperature: "{{ states('input_number.heating_temp1_day') }}"
+
+- id: heating_timer_follow_temp1_evening_when_modifying
+  alias: Heating zone 1 thermostat follow evening temp when changed
+  trigger:
+  - platform: state
+    entity_id: 'input_number.heating_temp1_evening'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+    - condition: template
+      value_template: >
+        {% set t = now().timestamp()-strptime(now().strftime("%Y-%m-%d 00:00:00"),"%Y-%m-%d %H:%M:%S").timestamp() %}
+        {% set time_start = state_attr('input_datetime.heating_weekday_evening_start','timestamp') %}
+        {% set time_end = state_attr('input_datetime.heating_weekday_night_start','timestamp') %}
+        {{ time_start <= t < time_end and is_state('binary_sensor.workday_sensor', 'on')}}
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater_1
+      temperature: "{{ states('input_number.heating_temp1_evening') }}"
+
+- id: heating_timer_follow_temp1_night_when_modifying
+  alias: Heating zone 1 thermostat follow night temp when changed
+  trigger:
+  - platform: state
+    entity_id: 'input_number.heating_temp1_night'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+    - condition: template
+      value_template: >
+        {% set t = now().timestamp()-strptime(now().strftime("%Y-%m-%d 00:00:00"),"%Y-%m-%d %H:%M:%S").timestamp() %}
+        {% set time_start = state_attr('input_datetime.heating_weekday_night_start','timestamp') %}
+        {% set time_end = state_attr('input_datetime.heating_weekday_morning_start','timestamp') %}
+        {{ (time_start <= t < 86400 or 0 <= t < time_end) and is_state('binary_sensor.workday_sensor', 'on')}}
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater_1
+      temperature: "{{ states('input_number.heating_temp1_night') }}"
+

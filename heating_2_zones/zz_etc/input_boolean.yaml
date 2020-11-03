@@ -1,0 +1,7 @@
+heating_timer_switch:
+  name: Heating timer enable
+  icon: mdi:fire
+heating_override_switch:
+  name: Heating override
+  icon: mdi:fire
+

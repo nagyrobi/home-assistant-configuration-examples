@@ -1,0 +1,19 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+    language: 'hu'
+
+automation: !include_dir_merge_list zz_automations/
+switch: !include_dir_merge_list zz_switch/
+sensor: !include_dir_merge_list zz_sensor/
+climate: !include_dir_merge_list zz_climate/
+binary_sensor: !include_dir_merge_list zz_binary/
+input_datetime: !include zz_etc/input_datetime.yaml
+input_boolean: !include zz_etc/input_boolean.yaml
+input_number: !include zz_etc/input_number.yaml
+group: !include zz_etc/groups.yaml
+

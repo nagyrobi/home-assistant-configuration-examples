@@ -1,0 +1,28 @@
+- platform: generic_thermostat
+  name: Heater 1
+  heater: switch.heater_1
+  target_sensor: sensor.room_1
+  min_temp: 16
+  max_temp: 26
+  cold_tolerance: 0.2
+  hot_tolerance: 0.2
+  away_temp: 20.5  # has to be set from here
+  precision: 0.1
+  initial_hvac_mode: "heat"
+  min_cycle_duration:
+    minutes: 10
+
+- platform: generic_thermostat
+  name: Heater 2
+  heater: switch.heater_2
+  target_sensor: sensor.room_2
+  min_temp: 16
+  max_temp: 26
+  cold_tolerance: 0.2
+  hot_tolerance: 0.2
+  away_temp: 20.5  # has to be set from here
+  precision: 0.1
+  initial_hvac_mode: "heat"
+  min_cycle_duration:
+    minutes: 10
+

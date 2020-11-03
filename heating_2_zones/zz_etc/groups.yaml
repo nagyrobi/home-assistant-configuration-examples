@@ -1,0 +1,15 @@
+family:
+  name: Family
+  entities:
+    - person.mom
+    - person.dad
+    - person.koolboy
+    - person.koolgirl
+
+doors_and_windows:
+  name: Any door or window
+  entities:
+    - binary_sensor.mcp23017_teszt_d0_sensor
+    - binary_sensor.mcp23017_teszt_d1_sensor
+
+

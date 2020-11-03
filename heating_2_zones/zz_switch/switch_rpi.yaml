@@ -1,0 +1,9 @@
+##### Raspberry PI with relay hat
+
+- platform: rpi_gpio
+  ports:
+    19: Heater 1
+    26: Heater 2
+    20: Main Pump
+    21: CH-4
+  invert_logic: True

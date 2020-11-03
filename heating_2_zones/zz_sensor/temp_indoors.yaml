@@ -1,0 +1,32 @@
+##### an MQTT sensor running Tasmota firmware
+
+  - platform: mqtt
+    name: "Room 1"
+    state_topic: "tele/room1/SENSOR"
+    value_template: "{{ value_json['DS18B20-1'].Temperature }}"
+    unit_of_measurement: "°C"
+    device_class: temperature
+    force_update: true
+    availability_topic: "tele/room1/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: mqtt
+    name: "Room 2"
+    state_topic: "tele/room2/SENSOR"
+    value_template: "{{ value_json['DS18B20'].Temperature }}"
+    unit_of_measurement: "°C"
+    device_class: temperature
+    force_update: true
+    availability_topic: "tele/room2/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+
+##### average custom component https://github.com/Limych/ha-average
+  - platform: average
+    name: 'Average rooms temperature'
+    entities:
+      - sensor.room_1
+      - sensor.room_2
+

@@ -1,0 +1,49 @@
+heating_weekday_morning_start:
+  name: Workdays morning
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-seven-outline
+heating_weekday_day_start:
+  name: Workdays daytime
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-nine-outline
+heating_weekday_evening_start:
+  name: Workdays evening
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-four-outline
+heating_weekday_night_start:
+  name: Workdays nighttime
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-eleven-outline
+
+heating_weekend_morning_start:
+  name: Freedays morning
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-seven-outline
+heating_weekend_day_start:
+  name: Freedays daytime
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-nine-outline
+heating_weekend_evening_start:
+  name: Freedays evening
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-four-outline
+heating_weekend_night_start:
+  name: Freedays nighttime
+  has_time: true
+  has_date: false
+  icon: mdi:clock-time-eleven-outline
+
+heating_override_until:
+  name: Until
+  has_time: true
+  has_date: true
+  icon: mdi:progress-clock
+
+

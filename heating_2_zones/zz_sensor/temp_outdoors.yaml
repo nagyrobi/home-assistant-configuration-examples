@@ -1,0 +1,13 @@
+##### an MQTT sensor running Tasmota firmware
+
+- platform: mqtt
+  name: "Outdoors temperature"
+  state_topic: "tele/outdoors/SENSOR"
+  value_template: "{{ value_json['DS18B20'].Temperature }}"
+  unit_of_measurement: "°C"
+  force_update: true
+  availability_topic: "tele/outdoors/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+
+

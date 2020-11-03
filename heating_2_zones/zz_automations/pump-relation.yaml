@@ -1,0 +1,34 @@
+- id: heating_pump_start
+  alias: 'Heating Pump Start'
+  trigger:
+    - platform: state
+      entity_id: switch.heater_1
+      to: 'on'
+    - platform: state
+      entity_id: switch.heater_2
+      to: 'on'
+  action:
+    - service: switch.turn_on
+      entity_id: switch.main_pump
+
+- id: heating_pump_stop
+  alias: 'Heating Pump Stop'
+  trigger:
+    - platform: state
+      entity_id: switch.heater_1
+      to: 'off'
+    - platform: state
+      entity_id: switch.heater_2
+      to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: switch.heater_1
+        state: 'off'
+      - condition: state
+        entity_id: switch.heater_2
+        state: 'off'
+  action:
+    - service: switch.turn_off
+      entity_id: switch.main_pump
