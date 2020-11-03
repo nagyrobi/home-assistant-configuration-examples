@@ -4,9 +4,17 @@
   - platform: state
     entity_id: 'input_number.heating_temp_morning'
   condition:
-  - condition: state
-    entity_id: 'input_boolean.heating_timer_switch'
-    state: 'on'
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+    - condition: template
+      value_template: >
+        {% set t = now().timestamp()-strptime(now().strftime("%Y-%m-%d 00:00:00"),"%Y-%m-%d %H:%M:%S").timestamp() %}
+        {% set time_start = state_attr('input_datetime.heating_weekday_morning_start','timestamp') %}
+        {% set time_end = state_attr('input_datetime.heating_weekday_day_start','timestamp') %}
+        {{ time_start <= t < time_end and is_state('binary_sensor.workday_sensor', 'on')}}
   action:
   - service: climate.set_temperature
     data_template:
@@ -19,9 +27,17 @@
   - platform: state
     entity_id: 'input_number.heating_temp_day'
   condition:
-  - condition: state
-    entity_id: 'input_boolean.heating_timer_switch'
-    state: 'on'
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+    - condition: template
+      value_template: >
+        {% set t = now().timestamp()-strptime(now().strftime("%Y-%m-%d 00:00:00"),"%Y-%m-%d %H:%M:%S").timestamp() %}
+        {% set time_start = state_attr('input_datetime.heating_weekday_day_start','timestamp') %}
+        {% set time_end = state_attr('input_datetime.heating_weekday_evening_start','timestamp') %}
+        {{ time_start <= t < time_end and is_state('binary_sensor.workday_sensor', 'on')}}
   action:
   - service: climate.set_temperature
     data_template:
@@ -34,9 +50,17 @@
   - platform: state
     entity_id: 'input_number.heating_temp_evening'
   condition:
-  - condition: state
-    entity_id: 'input_boolean.heating_timer_switch'
-    state: 'on'
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+    - condition: template
+      value_template: >
+        {% set t = now().timestamp()-strptime(now().strftime("%Y-%m-%d 00:00:00"),"%Y-%m-%d %H:%M:%S").timestamp() %}
+        {% set time_start = state_attr('input_datetime.heating_weekday_evening_start','timestamp') %}
+        {% set time_end = state_attr('input_datetime.heating_weekday_night_start','timestamp') %}
+        {{ time_start <= t < time_end and is_state('binary_sensor.workday_sensor', 'on')}}
   action:
   - service: climate.set_temperature
     data_template:
@@ -49,13 +73,20 @@
   - platform: state
     entity_id: 'input_number.heating_temp_night'
   condition:
-  - condition: state
-    entity_id: 'input_boolean.heating_timer_switch'
-    state: 'on'
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: 'input_boolean.heating_timer_switch'
+      state: 'on'
+    - condition: template
+      value_template: >
+        {% set t = now().timestamp()-strptime(now().strftime("%Y-%m-%d 00:00:00"),"%Y-%m-%d %H:%M:%S").timestamp() %}
+        {% set time_start = state_attr('input_datetime.heating_weekday_night_start','timestamp') %}
+        {% set time_end = state_attr('input_datetime.heating_weekday_morning_start','timestamp') %}
+        {{ (time_start <= t < 86400 or 0 <= t < time_end) and is_state('binary_sensor.workday_sensor', 'on')}}
   action:
   - service: climate.set_temperature
     data_template:
       entity_id: climate.heater
       temperature: "{{ states('input_number.heating_temp_night') }}"
-
 
