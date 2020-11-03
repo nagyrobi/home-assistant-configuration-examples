@@ -1,3 +1,6 @@
+##### If you touch the sliders of the timer, adjust also the thermostat immediately according to the current slider
+## For Zone 1
+
 - id: heating_timer_follow_temp1_morning_when_modifying
   alias: Heating zone 1 thermostat follow morning temp when changed
   trigger:
