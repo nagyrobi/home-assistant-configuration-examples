@@ -1,0 +1,11 @@
+family:
+  name: Family
+  entities:
+    - person.mom
+    - person.dad
+    - person.koolboy
+    - person.koolgirl
+
+
+
+
