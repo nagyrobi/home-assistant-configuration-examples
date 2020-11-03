@@ -1,0 +1,61 @@
+- id: heating_timer_follow_temp_morning_when_modifying
+  alias: Heating thermostat follow morning temp when changed
+  trigger:
+  - platform: state
+    entity_id: 'input_number.heating_temp_morning'
+  condition:
+  - condition: state
+    entity_id: 'input_boolean.heating_timer_switch'
+    state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_morning') }}"
+
+- id: heating_timer_follow_temp_day_when_modifying
+  alias: Heating thermostat follow day temp when changed
+  trigger:
+  - platform: state
+    entity_id: 'input_number.heating_temp_day'
+  condition:
+  - condition: state
+    entity_id: 'input_boolean.heating_timer_switch'
+    state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_day') }}"
+
+- id: heating_timer_follow_temp_evening_when_modifying
+  alias: Heating thermostat follow evening temp when changed
+  trigger:
+  - platform: state
+    entity_id: 'input_number.heating_temp_evening'
+  condition:
+  - condition: state
+    entity_id: 'input_boolean.heating_timer_switch'
+    state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_evening') }}"
+
+- id: heating_timer_follow_temp_night_when_modifying
+  alias: Heating thermostat follow night temp when changed
+  trigger:
+  - platform: state
+    entity_id: 'input_number.heating_temp_night'
+  condition:
+  - condition: state
+    entity_id: 'input_boolean.heating_timer_switch'
+    state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.heater
+      temperature: "{{ states('input_number.heating_temp_night') }}"
+
+
