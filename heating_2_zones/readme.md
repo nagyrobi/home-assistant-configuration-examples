@@ -87,7 +87,3 @@ cards:
 ```
 
 Forum discussion: https://community.home-assistant.io/t/smart-heating-control-with-home-assistant/237966
-
-
-Grab the source configs from here:
-https://github.com/nagyrobi/home-assistant-configuration-examples/tree/main/heating
