@@ -51,5 +51,17 @@
     data:
       entity_id: 'input_boolean.heating_override_switch'
 
-
-
+- id: heating_override_follow_temp_when_modifying
+  alias: Heating thermostat follow override temp when changed
+  trigger:
+  - platform: state
+    entity_id: 'input_number.heating_temp_override'
+  condition:
+  - condition: state
+    entity_id: 'input_boolean.heating_override_switch'
+    state: 'on'
+  action:
+  - service: climate.set_temperature
+    data_template:
+      entity_id: climate.futes
+      temperature: "{{ states('input_number.heating_temp_override') }}"
