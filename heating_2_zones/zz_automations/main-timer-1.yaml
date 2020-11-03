@@ -1,4 +1,4 @@
-##### Automations for heating timer
+##### Automations for heating timer Zone 1
 ##### Workdays
 
 - id: heating1_morning_on_wd
