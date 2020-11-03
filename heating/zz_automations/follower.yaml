@@ -1,3 +1,5 @@
+## Thermostat target value to follow dragging of the sliders in the correct timeslots
+
 - id: heating_timer_follow_temp_morning_when_modifying
   alias: Heating thermostat follow morning temp when changed
   trigger:
