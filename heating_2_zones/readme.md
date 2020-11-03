@@ -2,7 +2,7 @@
 
 I've put together a heating control system for my house using Home Assistant. This completely replaces any hardware thermostat, all decisions are done in software by the system. Since it took quite a lot of work, I thought I'd share it for anyone trying to achieve something similar. It all started from  the solution on [this page](https://www.earth.li/~noodles/blog/2018/10/heating-automation.html) but I wanted a more flexible approach - however it was excellent to set the base to start from. The goal was also to have all configuration available in Lovelace GUI and no need to edit config files in order to change operational parameters.
 
-![Lovelace UI](https://raw.githubusercontent.com/nagyrobi/home-assistant-configuration-examples/main/heating/heating_lovelace_small.jpg)
+![Lovelace UI](https://raw.githubusercontent.com/nagyrobi/home-assistant-configuration-examples/main/heating_2_zones/heating_lovelace_2zones_small.png)
 
 ## Features
 - 2 zones (composed of 1 heater main pump + 2 separate zone pumps/valves)
