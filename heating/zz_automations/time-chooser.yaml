@@ -8,6 +8,8 @@
     to: 'on'
   - platform: template
     value_template: "{{ not is_state_attr('climate.heater', 'preset_mode', 'away') }}"
+  mode: single
+  max_exceeded: silent
   action:
   - choose:
     - conditions:
