@@ -1,0 +1,9 @@
+- platform: command_line 
+  scan_interval: 900
+  switches:
+    camera_led:
+      friendly_name: Camera ColorVU LED
+      command_on: "curl -k --silent -H 'Content-Type:application/xml' -X PUT -d '<ExternalDevice><SupplementLight><enabled>true</enabled></SupplementLight></ExternalDevice>' http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass"
+      command_off: "curl -k --silent -H 'Content-Type:application/xml' -X PUT -d '<ExternalDevice><SupplementLight><enabled>false</enabled></SupplementLight></ExternalDevice>' http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass"
+      command_state: "curl -k --silent -X GET http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass | grep -oP '(?<=enabled>).*?(?=</enabled>)'"
+      value_template: "{{ value == 'true' }}"

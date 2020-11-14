@@ -1,0 +1,16 @@
+- id: restart_camera_led
+  alias: 'Switch back the ColorVU LED after 2 hours'
+  trigger:
+    - platform: state
+      entity_id: switch.camera_led
+      from: 'on'
+      to: 'off'
+  mode: restart
+  action:
+    - delay: '02:00:00'
+    - condition: state
+      entity_id: switch.camera_led
+      state: 'off'
+    - service: switch.turn_on
+      entity_id: switch.camera_led
+
