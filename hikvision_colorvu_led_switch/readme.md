@@ -4,4 +4,4 @@ With this command line switch it's possible to turn on and off the super-bright 
 
 Tested and working with DS-2CD2T47G1-L firmare v5.6.5.
 
-
+https://community.home-assistant.io/t/control-the-white-colorvu-led-on-hikvision-cameras/245092
