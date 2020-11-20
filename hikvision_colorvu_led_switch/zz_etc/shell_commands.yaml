@@ -1,0 +1,2 @@
+  camera_led_schedule: curl -k --silent -H "Content-Type:application/xml" -X PUT -d "<ExternalDevice><SupplementLight><mode>schedule</mode><Schedule><TimeRange><beginTime>{{ (as_timestamp(states.sun.sun.attributes.next_setting) + 3600 ) | timestamp_custom('%H:%M:%S') }}</beginTime><endTime>{{ (as_timestamp(states.sun.sun.attributes.next_rising) - 1800 ) | timestamp_custom('%H:%M:%S') }}</endTime></TimeRange></Schedule></SupplementLight></ExternalDevice>" http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass
+
