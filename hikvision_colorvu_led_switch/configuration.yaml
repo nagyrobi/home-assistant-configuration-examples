@@ -1,4 +1,4 @@
 automation: !include_dir_merge_list zz_automations/
 switch: !include_dir_merge_list zz_switch/
-
+shell_command: !include zz_etc/shell_commands.yaml
 
