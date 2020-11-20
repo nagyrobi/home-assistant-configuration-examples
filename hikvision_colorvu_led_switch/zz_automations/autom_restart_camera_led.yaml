@@ -1,3 +1,11 @@
+- id: schedule_camera_led
+  alias: 'Schedule LED operation based on sunset and sunrise'
+  trigger:
+    - platform: time
+      at: '12:30:00'
+  action:
+    - service: shell_command.camera_led_schedule
+
 - id: restart_camera_led
   alias: 'Switch back the ColorVU LED after 2 hours'
   trigger:
@@ -13,4 +21,3 @@
       state: 'off'
     - service: switch.turn_on
       entity_id: switch.camera_led
-
