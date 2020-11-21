@@ -15,6 +15,7 @@
       to: 'off'
   mode: restart
   action:
+    - service: shell_command.camera_led_schedule # re-set the schedule, use only when in scheduled mode. Because command line switch doesn't support templates...
     - delay: '02:00:00'
     - condition: state
       entity_id: switch.camera_led
