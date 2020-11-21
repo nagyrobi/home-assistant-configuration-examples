@@ -2,8 +2,14 @@
   scan_interval: 900
   switches:
     camera_led:
-      friendly_name: Camera ColorVU LED
+      friendly_name: Camera ColorVU LED Auto
       command_on: "curl -k --silent -H 'Content-Type:application/xml' -X PUT -d '<ExternalDevice><SupplementLight><enabled>true</enabled></SupplementLight></ExternalDevice>' http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass"
       command_off: "curl -k --silent -H 'Content-Type:application/xml' -X PUT -d '<ExternalDevice><SupplementLight><enabled>false</enabled></SupplementLight></ExternalDevice>' http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass"
+      command_state: "curl -k --silent -X GET http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass | grep -oP '(?<=enabled>).*?(?=</enabled>)'"
+      value_template: "{{ value == 'true' }}"
+    camera_led_sched:
+      friendly_name: Camera ColorVU LED Scheduled
+      command_on: "curl -k --silent -H 'Content-Type:application/xml' -X PUT -d '<ExternalDevice><SupplementLight><enabled>true</enabled><mode>schedule</mode><Schedule><TimeRange><beginTime>20:00:00</beginTime><endTime>06:00:00</endTime></TimeRange></Schedule></SupplementLight></ExternalDevice>' http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass"
+      command_off: "curl -k --silent -H 'Content-Type:application/xml' -X PUT -d '<ExternalDevice><SupplementLight><enabled>false</enabled><mode>schedule</mode><Schedule><TimeRange><beginTime>20:00:00</beginTime><endTime>06:00:00</endTime></TimeRange></Schedule></SupplementLight></ExternalDevice>' http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass"
       command_state: "curl -k --silent -X GET http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass | grep -oP '(?<=enabled>).*?(?=</enabled>)'"
       value_template: "{{ value == 'true' }}"
