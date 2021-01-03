@@ -13,6 +13,7 @@
     below: '16'
   - platform: state
     entity_id: 'group.doors_and_windows'
+    from: 'on'
     to: 'off' # not tested
   condition:
     condition: and
@@ -40,6 +41,7 @@
     above: '20'
   - platform: state
     entity_id: 'group.doors_and_windows'
+    from: 'off'
     to: 'on' # not tested
   condition:
     condition: and
