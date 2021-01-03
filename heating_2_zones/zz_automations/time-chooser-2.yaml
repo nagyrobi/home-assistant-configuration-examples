@@ -6,6 +6,7 @@
   trigger:
   - platform: state
     entity_id: 'input_boolean.heating_timer_switch'
+    from: 'off'
     to: 'on'
   - platform: template
     value_template: "{{ not is_state_attr('climate.heater_2', 'preset_mode', 'away') }}"
