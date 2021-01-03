@@ -63,5 +63,5 @@
   action:
   - service: climate.set_temperature
     data_template:
-      entity_id: climate.futes
+      entity_id: climate.heater
       temperature: "{{ states('input_number.heating_temp_override') }}"
