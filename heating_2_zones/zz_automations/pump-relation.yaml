@@ -3,9 +3,11 @@
   trigger:
     - platform: state
       entity_id: switch.heater_1
+      from: 'off'
       to: 'on'
     - platform: state
       entity_id: switch.heater_2
+      from: 'off'
       to: 'on'
   action:
     - service: switch.turn_on
@@ -16,9 +18,11 @@
   trigger:
     - platform: state
       entity_id: switch.heater_1
+      from: 'on'
       to: 'off'
     - platform: state
       entity_id: switch.heater_2
+      from: 'on'
       to: 'off'
   condition:
     condition: and
