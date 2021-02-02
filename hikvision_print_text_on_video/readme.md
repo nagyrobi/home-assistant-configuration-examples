@@ -5,6 +5,6 @@ Note that the shell command is parametrized, so that only one is needed for all 
 
 Two examples included, one which updates outdoor temperatures, and one which displays a message on the video when somebody pushes the doorbell button.
 
-Tested and working with DS-2CD2T47G1-L firmare v5.6.5.
+Tested and working with DS-2CD2T47G1-L firmware v5.6.5.
 
-
+https://community.home-assistant.io/t/print-custom-text-on-hikvision-camera-video/276009
