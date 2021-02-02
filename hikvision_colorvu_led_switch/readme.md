@@ -2,7 +2,7 @@
 
 With this command line switch it's possible to turn on and off the super-bright white LED on the ColorVU Hikvision cameras (toggles the checkbox corresponding to "System Settings > External Device > Enable Supplement Light" in the web UI of the camera). One would want to do this temporarily because the LED is so bright that it may be annoying to people spending some time on the area watched by the camera. There's an automation included which turns it back on after 2 hours, just in case someone forgets to do do this.
 
-Tested and working with DS-2CD2T47G1-L firmare v5.6.5.
+Tested and working with DS-2CD2T47G1-L firmware v5.6.5.
 
 I’ve added to the example a shell_command and an automation to update every day the LED operation schedule on the camera, for those not satisfied by the automatic mode.
 
