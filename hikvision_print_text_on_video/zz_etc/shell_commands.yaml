@@ -1,0 +1,2 @@
+  camera_textdisplay: curl -k --silent -H 'Content-Type:application/xml' -X PUT -d '<TextOverlayList><TextOverlay><id>1</id><enabled>{{ camera_text_enabled }}</enabled><positionX>16</positionX><positionY>560</positionY><displayText>{{ camera_text }}</displayText><isPersistentText>true</isPersistentText></TextOverlay></TextOverlayList>' http://{{ camera_ip }}/ISAPI/System/Video/inputs/channels/101/overlays/text --digest -u user:pass
+
