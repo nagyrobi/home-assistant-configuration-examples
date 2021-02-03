@@ -9,4 +9,6 @@ Two examples included, one which updates outdoor temperatures, and one which dis
 
 Tested and working with DS-2CD2T47G1-L firmware v5.6.5.
 
+Note that there can be even 4 text fields supported, just look in the OSD settings of the camera. To access them, the shell command can be modified around the `<id>1</id>` xml tag, by replacing 1 with the number of the required field. Haven't tested this myself though.
+
 https://community.home-assistant.io/t/print-custom-text-on-hikvision-camera-video/276009
