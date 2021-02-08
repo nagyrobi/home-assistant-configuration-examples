@@ -9,6 +9,9 @@ Two examples included, one which updates outdoor temperatures, and one which dis
 
 Tested and working with DS-2CD2T47G1-L firmware v5.6.5.
 
-Note that there can be even 4 text fields supported, just look in the OSD settings of the camera. To access them, the shell command can be modified around the `<id>1</id>` xml tag, by replacing 1 with the number of the required field. Haven't tested this myself though.
+Note that there can be even 4 text fields supported, just look in the OSD settings of the camera.
+![pic2](https://community-assets.home-assistant.io/original/3X/3/0/30e23537e9d229b1e6d1d56bc243cfbd928f3366.png)
+
+To access them, use the `camera_text_id` parameter (integers from 1 to 4). Each field can be positioned on screen, use `camera_text_pos_x` and `camera_text_pos_y` for that (coordinates originate from the bottom left corner). To remove text from screen switch it off with `camera_text_enabled` parameter set to `false` (important: can be `true` or `false`, and has to be lowercase and in quotes!)
 
 https://community.home-assistant.io/t/print-custom-text-on-hikvision-camera-video/276009
