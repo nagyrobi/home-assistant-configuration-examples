@@ -1,34 +1,51 @@
 - id: camera_1_text
   alias: 'Camera 1 Text update every 30 min with temperature data'
   trigger:
-    - platform: time_pattern
-      minutes: /30
+  - platform: time_pattern
+    minutes: /30
   mode: single
   action:
-    - service: shell_command.camera_textdisplay
-      data_template:
-        camera_text: "Outdoor: {{states('sensor.outdoor_temp')}}° Water: {{states('sensor.water_temp')}}°"
-        camera_ip: 192.168.1.64
-        camera_text_enabled: true
+  - service: shell_command.camera_textdisplay
+    data_template:
+      camera_text: "Outdoor: {{states('sensor.outdoor_temp')}}° Water: {{states('sensor.water_temp')}}°"
+      camera_ip: 192.168.1.64
+      camera_text_enabled: 'true'
+      camera_text_id: 1
+      camera_text_pos_x: 16
+      camera_text_pos_y: 550
+  - delay: '00:00:02'
+  - service: shell_command.camera_textdisplay
+    data_template:
+      camera_text: "Air quality: {{states('sensor.airquality_pm25')}}"
+      camera_ip: 192.168.1.64
+      camera_text_enabled: 'true'
+      camera_text_id: 2
+      camera_text_pos_x: 16
+      camera_text_pos_y: 520
 
 
 - id: camera_2_text
   alias: 'Camera 2 Text display for 30 secs when doorbell pressed'
   trigger:
-    - platform: mqtt
-      topic: stat/doorbell/ring
-      payload: "1"
+  - platform: mqtt
+    topic: stat/doorbell/ring
+    payload: "1"
   mode: single
   action:
-    - service: shell_command.camera_textdisplay
-      data_template:
-        camera_text: "Doorbell ringing!"
-        camera_ip: 192.168.1.65
-        camera_text_enabled: true
-    - delay: '00:00:30'
-    - service: shell_command.camera_textdisplay
-      data_template:
-        camera_text: ""
-        camera_ip: 192.168.1.65
-        camera_text_enabled: false
-
+  - service: shell_command.camera_textdisplay
+    data_template:
+      camera_text: "Doorbell ringing!"
+      camera_ip: 192.168.1.65
+      camera_text_enabled: 'true'
+      camera_text_id: 1
+      camera_text_pos_x: 16
+      camera_text_pos_y: 550
+  - delay: '00:00:30'
+  - service: shell_command.camera_textdisplay
+    data_template:
+      camera_text: ""
+      camera_ip: 192.168.1.65
+      camera_text_enabled: 'false'
+      camera_text_id: 1
+      camera_text_pos_x: 16
+      camera_text_pos_y: 550
