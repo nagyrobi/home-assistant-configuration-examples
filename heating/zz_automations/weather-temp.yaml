@@ -13,7 +13,6 @@
     below: '12'
   - platform: state
     entity_id: 'group.doors_and_windows'
-    from: 'on'
     to: 'off' # not tested
   condition:
     condition: and
@@ -41,8 +40,7 @@
     above: '17'
   - platform: state
     entity_id: 'group.doors_and_windows'
-    from: 'off'
-    to: 'on'  # not tested
+    to: 'on' # not tested
   condition:
     condition: and
     conditions:
@@ -57,3 +55,4 @@
   - service: climate.turn_off
     data:
       entity_id: climate.heater
+

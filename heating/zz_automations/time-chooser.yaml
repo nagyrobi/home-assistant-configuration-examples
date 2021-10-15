@@ -111,3 +111,4 @@
         data_template:
           entity_id: climate.heater
           temperature: "{{ states('input_number.heating_temp_night') }}"
+
