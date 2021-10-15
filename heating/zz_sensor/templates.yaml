@@ -9,5 +9,5 @@
 #      unit_of_measurement: '°C'
 #      friendly_name: "Average rooms temperature"
 #      value_template: >-
-#        {{ ((float(states.sensor.room1_temperature.state) + float(states.sensor.room2_temperature.state) + float(states.sensor.room3_temperature.state) + float(states.sensor.room4_temperature.state)) / 4) | round(2) }}
+#        {{ ((float(default=0)(states.sensor.room1_temperature.state) + float(default=0)(states.sensor.room2_temperature.state) + float(default=0)(states.sensor.room3_temperature.state) + float(default=0)(states.sensor.room4_temperature.state)) / 4) | round(2) }}
 
