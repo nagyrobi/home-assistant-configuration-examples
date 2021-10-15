@@ -11,7 +11,7 @@
   - service: input_datetime.set_datetime
     entity_id: input_datetime.heating_override_until
     data:
-      datetime: "{{ (as_timestamp(now()) + 3600 | float) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
+      datetime: "{{ (as_timestamp(now()) + 3600 | float(default=0)) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
   - service: input_boolean.turn_off
     data:
       entity_id: 'input_boolean.heating_timer_switch'
@@ -41,6 +41,7 @@
   trigger:
   - platform: state
     entity_id: 'input_boolean.heating_timer_switch'
+    from: 'off'
     to: 'on'
   action:
   - service: input_boolean.turn_off
