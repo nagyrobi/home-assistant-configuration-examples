@@ -4,8 +4,8 @@
 - id: heating2_morning_on_wd
   alias: Heating zone 2 set temp (weekday mornings)
   trigger:
-    platform: template
-    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekday_morning_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+    - platform: time
+      at: input_datetime.heating_weekday_morning_start
   condition:
     condition: and
     conditions:
@@ -26,8 +26,8 @@
 - id: heating2_daytime_on_wd
   alias: Heating zone 2 set temp (weekday daytime)
   trigger:
-    platform: template
-    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekday_day_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+    - platform: time
+      at: input_datetime.heating_weekday_day_start
   condition:
     condition: and
     conditions:
@@ -48,8 +48,8 @@
 - id: heating2_evening_on_wd
   alias: Heating zone 2 set temp (weekday evenings)
   trigger:
-    platform: template
-    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekday_evening_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+    - platform: time
+      at: input_datetime.heating_weekday_evening_start
   condition:
     condition: and
     conditions:
@@ -70,8 +70,8 @@
 - id: heating2_nighttime_on_wd
   alias: Heating zone 2 set temp (weekday nightime)
   trigger:
-    platform: template
-    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekday_night_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+    - platform: time
+      at: input_datetime.heating_weekday_night_start
   condition:
     condition: and
     conditions:
@@ -96,8 +96,8 @@
 - id: heating2_morning_on_we
   alias: Heating zone 2 set temp (weekend mornings)
   trigger:
-    platform: template
-    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekend_morning_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+    - platform: time
+      at: input_datetime.heating_weekend_morning_start
   condition:
     condition: and
     conditions:
@@ -118,8 +118,8 @@
 - id: heating2_daytime_on_we
   alias: Heating zone 2 set temp (weekend daytime)
   trigger:
-    platform: template
-    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekend_day_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+    - platform: time
+      at: input_datetime.heating_weekend_day_start
   condition:
     condition: and
     conditions:
@@ -140,8 +140,8 @@
 - id: heating2_evening_on_we
   alias: Heating zone 2 set temp (weekend evenings)
   trigger:
-    platform: template
-    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekend_evening_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+    - platform: time
+      at: input_datetime.heating_weekend_evening_start
   condition:
     condition: and
     conditions:
@@ -162,8 +162,8 @@
 - id: heating2_nighttime_on_we
   alias: Heating zone 2 set temp (weekend nightime)
   trigger:
-    platform: template
-    value_template: "{{ states('sensor.time') == (state_attr('input_datetime.heating_weekend_night_start','timestamp') | timestamp_custom('%H:%M', False)) }}"
+    - platform: time
+      at: input_datetime.heating_weekend_night_start
   condition:
     condition: and
     conditions:
