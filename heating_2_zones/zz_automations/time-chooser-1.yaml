@@ -16,7 +16,7 @@
   - choose:
     - conditions:
       - condition: state
-        entity_id: binary_sensor.workday_extra
+        entity_id: binary_sensor.workday_sensor
         state: 'on'      
       - condition: time
         after: input_datetime.heating_weekday_morning_start
@@ -26,9 +26,10 @@
         data_template:
           entity_id: climate.heater_1
           temperature: "{{ states('input_number.heating_temp1_morning') }}"
+
     - conditions:
       - condition: state
-        entity_id: binary_sensor.workday_extra
+        entity_id: binary_sensor.workday_sensor
         state: 'on'      
       - condition: time
         after: input_datetime.heating_weekday_day_start
@@ -38,9 +39,10 @@
         data_template:
           entity_id: climate.heater_1
           temperature: "{{ states('input_number.heating_temp1_day') }}"
+
     - conditions:
       - condition: state
-        entity_id: binary_sensor.workday_extra
+        entity_id: binary_sensor.workday_sensor
         state: 'on'      
       - condition: time
         after: input_datetime.heating_weekday_evening_start
@@ -50,9 +52,10 @@
         data_template:
           entity_id: climate.heater_1
           temperature: "{{ states('input_number.heating_temp1_evening') }}"
+
     - conditions:
       - condition: state
-        entity_id: binary_sensor.workday_extra
+        entity_id: binary_sensor.workday_sensor
         state: 'on'      
       - condition: or
         conditions:          
@@ -66,10 +69,11 @@
           entity_id: climate.heater_1
           temperature: "{{ states('input_number.heating_temp1_night') }}"
 
+
   - choose:
     - conditions:
       - condition: state
-        entity_id: binary_sensor.workday_extra
+        entity_id: binary_sensor.workday_sensor
         state: 'off'      
       - condition: time
         after: input_datetime.heating_weekend_morning_start
@@ -79,9 +83,10 @@
         data_template:
           entity_id: climate.heater_1
           temperature: "{{ states('input_number.heating_temp1_morning') }}"
+
     - conditions:
       - condition: state
-        entity_id: binary_sensor.workday_extra
+        entity_id: binary_sensor.workday_sensor
         state: 'off'      
       - condition: time
         after: input_datetime.heating_weekend_day_start
@@ -91,9 +96,10 @@
         data_template:
           entity_id: climate.heater_1
           temperature: "{{ states('input_number.heating_temp1_day') }}"
+
     - conditions:
       - condition: state
-        entity_id: binary_sensor.workday_extra
+        entity_id: binary_sensor.workday_sensor
         state: 'off'      
       - condition: time
         after: input_datetime.heating_weekend_evening_start
@@ -103,16 +109,17 @@
         data_template:
           entity_id: climate.heater_1
           temperature: "{{ states('input_number.heating_temp1_evening') }}"
+
     - conditions:
       - condition: state
-        entity_id: binary_sensor.workday_extra
+        entity_id: binary_sensor.workday_sensor
         state: 'off'      
       - condition: or
         conditions:          
         - condition: time
-          after: input_datetime.heating_weekday_night_start
+          after: input_datetime.heating_weekend_night_start
         - condition: time
-          before: input_datetime.heating_weekday_morning_start
+          before: input_datetime.heating_weekend_morning_start
       sequence:
       - service: climate.set_temperature
         data_template:
