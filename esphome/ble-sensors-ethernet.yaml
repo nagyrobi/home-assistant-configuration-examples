@@ -1,0 +1,181 @@
+# Make BLE bridge for Home Assistant with ESPHome
+#
+# Gather data from several Xiaomi LYWSD03MMC sensors. Tested with 10 pieces, all running pvvx firmware with default settings.
+# Use Wireless-Tag WT32-ETH01 board for Ethernet connection to the network, to offload ESP32's radio module from WiFi traffic, 
+# to gain performance on BLE side. Receiving multiple BLE broadcasts per minute from each sensor.
+#
+# Calculate absolute humidity and dew point, and average temperatures of all rooms.
+# Monitor memory usage and provide safe mode boot to be able to OTA firmware even with lots of sensors.
+# Use traffic encryption between ESPHome and Home Assistant, use native API.
+#
+# Note: Avoid placing the ESP node in racks, close to switches or other network equipment as EMI interference may degrade 
+# signal reception.
+
+substitutions:
+  device_name: ble-sensors
+  friendly_name: "BLE"
+  device_ip: 192.168.1.15
+  device_description: "LYWSD03MMC bridge WT32-ETH01"
+
+esphome:
+  name: ${device_name}
+  comment: "${device_description}"
+  platform: ESP32
+  board: esp32doit-devkit-v1
+
+logger:
+  baud_rate: 0
+  level: INFO
+
+api:
+  reboot_timeout: 15min
+  password: !secret api_password
+  encryption:
+    key: !secret encryption_key
+
+ota:
+  password: !secret ota_password
+
+ethernet:
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk_mode: GPIO0_IN
+  phy_addr: 1
+  power_pin: GPIO16
+  manual_ip:
+    static_ip: ${device_ip}
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+  use_address: ${device_ip}
+
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 5s
+    window: 5s
+    active: false
+
+sensor:
+- platform: pvvx_mithermometer
+  mac_address: "AA:BB:CC:DD:EE:FF"
+  temperature:
+    name: ${friendly_name} Room 1 Temperature
+    id: th_room1_temp
+#    filters: # optionally uncomment to make graphs smoother
+#    - exponential_moving_average:
+#        send_every: 5
+#        alpha: 0.3
+  humidity:
+    name: ${friendly_name} Room 1 Humidity
+    id: th_room1_hum
+  battery_level:
+    name: ${friendly_name} Room 1 sensor battery percent
+    filters:
+      - throttle: 1800s
+  battery_voltage:
+    name: ${friendly_name} Room 1 sensor battery voltage
+    icon: "mdi:plus-circle"
+    filters:
+      - throttle: 1800s
+- platform: ble_rssi
+  mac_address: "AA:BB:CC:DD:EE:FF"
+  name: ${friendly_name} Room 1 sensor RSSI
+  entity_category: diagnostic
+  filters:
+    - throttle: 180s
+
+
+- platform: pvvx_mithermometer
+  mac_address: "FF:EE:DD:CC:BB:AA"
+  temperature:
+    name: ${friendly_name} Room 2 Temperature
+    id: th_room2_temp
+  humidity:
+    name: ${friendly_name} Room 2 Humidity
+    id: th_room2_hum
+  battery_level:
+    name: ${friendly_name} Room 2 sensor battery percent
+    filters:
+      - throttle: 1800s
+  battery_voltage:
+    name: ${friendly_name} Room 2 sensor battery voltage
+    icon: "mdi:plus-circle"
+    filters:
+      - throttle: 1800s
+- platform: ble_rssi
+  mac_address: "FF:EE:DD:CC:BB:AA"
+  name: ${friendly_name} Room 2 sensor RSSI
+  entity_category: diagnostic
+  filters:
+    - throttle: 180s
+
+
+- platform: template
+  name: ${friendly_name} Room 1 Humidity absolute
+  lambda: |-
+      const float mw = 18.01534;    // molar mass of water g/mol
+      const float r = 8.31447215;   // Universal gas constant J/mol/K
+      return (6.112 * powf(2.718281828, (17.67 * id(th_room1_temp).state) /
+        (id(th_room1_temp).state + 243.5)) * id(th_room1_hum).state * mw) /
+        ((273.15 + id(th_room1_temp).state) * r); // in grams/m^3
+  accuracy_decimals: 2
+  update_interval: 180s
+  icon: 'mdi:water'
+  unit_of_measurement: 'g/m³'
+
+- platform: template
+  name: ${friendly_name} Room 1 Dew point
+  lambda: |-
+      return (243.5*(log(id(th_room1_hum).state/100)+((17.67*id(th_room1_temp).state)/
+      (243.5+id(th_room1_temp).state)))/(17.67-log(id(th_room1_hum).state/100)-
+      ((17.67*id(th_room1_temp).state)/(243.5+id(th_room1_temp).state))));
+  unit_of_measurement: °C
+  update_interval: 180s
+  icon: 'mdi:thermometer-alert'
+
+
+- platform: template
+  name: ${friendly_name} Rooms average temperature
+  icon: 'mdi:thermometer'
+  unit_of_measurement: °C
+  state_class: measurement
+  update_interval: 30s
+  accuracy_decimals: 2
+  lambda: |-
+      float sum = 0;
+      uint16_t cnt = 0;
+      if (!std::isnan(id(th_room1_temp).state)) {
+        sum += id(th_room1_temp).state;
+        cnt += 1;
+      }
+      if (!std::isnan(id(th_room2_temp).state)) {
+        sum += id(th_room2_temp).state;
+        cnt += 1;
+      }
+      if (cnt == 0) {
+        return NAN;
+      } else {
+        return (sum / cnt);
+      }
+
+- platform: template
+  name: ${friendly_name} bridge free memory
+  lambda: return heap_caps_get_free_size(MALLOC_CAP_INTERNAL);
+  icon: "mdi:memory"
+  entity_category: diagnostic
+  state_class: measurement
+  unit_of_measurement: "b"
+  update_interval: 60s
+- platform: uptime
+  name: ${friendly_name} bridge uptime
+
+binary_sensor:
+- platform: status
+  name: ${friendly_name} bridge network
+
+button:
+- platform: safe_mode
+  name: ${friendly_name} bridge safe mode boot
+
+
+
