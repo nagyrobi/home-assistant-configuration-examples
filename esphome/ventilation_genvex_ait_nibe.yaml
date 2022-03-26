@@ -135,12 +135,6 @@ sensor:
     - heartbeat: 120s
     - offset: -300
     - multiply: 0.1
-    - lambda: |-
-        if (id(genvex_inlet_fan).state == 0.0) {
-          return NAN;
-        } else {
-          return x;
-        }
 - platform: modbus_controller
   modbus_controller_id: ${modbus_ctrl_id}
   name: ${friendly_name} Fresh air
@@ -155,12 +149,6 @@ sensor:
     - heartbeat: 120s
     - offset: -300
     - multiply: 0.1
-    - lambda: |-
-        if (id(genvex_inlet_fan).state == 0.0) {
-          return NAN;
-        } else {
-          return x;
-        }
 - platform: modbus_controller
   modbus_controller_id: ${modbus_ctrl_id}
   name: ${friendly_name} Exhaust air
@@ -175,12 +163,6 @@ sensor:
     - heartbeat: 120s
     - offset: -300
     - multiply: 0.1
-    - lambda: |-
-        if (id(genvex_extract_fan).state == 0.0) {
-          return NAN;
-        } else {
-          return x;
-        }
 - platform: modbus_controller
   modbus_controller_id: ${modbus_ctrl_id}
   name: ${friendly_name} Extract air
@@ -196,12 +178,6 @@ sensor:
     - heartbeat: 120s
     - offset: -300
     - multiply: 0.1
-    - lambda: |-
-        if (id(genvex_extract_fan).state == 0.0) {
-          return NAN;
-        } else {
-          return x;
-        }
 
 - platform: modbus_controller
   modbus_controller_id: ${modbus_ctrl_id}
@@ -224,12 +200,6 @@ sensor:
   filters:
     - filter_out: 0
     - heartbeat: 120s
-    - lambda: |-
-        if (id(genvex_extract_fan).state == 0.0) {
-          return NAN;
-        } else {
-          return x;
-        }
 
 - platform: modbus_controller 
   modbus_controller_id: ${modbus_ctrl_id}
@@ -283,7 +253,7 @@ sensor:
         (id(genvex_temp_t7).state + 243.5)) * id(genvex_hum).state * mw) /
         ((273.15 + id(genvex_temp_t7).state) * r); // in grams/m^3
   accuracy_decimals: 2
-  update_interval: 180s
+  update_interval: 120s
   icon: 'mdi:water'
   unit_of_measurement: 'g/m³'
 
@@ -294,7 +264,7 @@ sensor:
       (243.5+id(genvex_temp_t7).state)))/(17.67-log(id(genvex_hum).state/100)-
       ((17.67*id(genvex_temp_t7).state)/(243.5+id(genvex_temp_t7).state))));
   unit_of_measurement: °C
-  update_interval: 180s
+  update_interval: 120s
   icon: 'mdi:thermometer-alert'
 
 
@@ -401,13 +371,14 @@ binary_sensor:
   id: genvex_turningoff
   lambda: |-
     if ((id(genvex_inlet_fan).state != 0 or id(genvex_extract_fan).state != 0) and id(genvex_mode).state == 0) {
-      // Lekapcsolás folyamatban
       ESP_LOGD("ModbusLambda", "Cooldown extrarun before turning off");
       return true;
     } else {
       return false;
     }
-  on_state:  # When turning off the unit, it will still run for about 3 minutes at its current speed. This trick helps with that, it switches first to the lowes speed and then turns it off, so that thos 3 minutes will be done in the most silent way.
+  on_state:
+  # When turning off the unit, it will still run for about 3 minutes at its current speed. This trick helps with that, 
+  # it switches first to the lowest speed and then turns it off, so that those 3 minutes will be done in the most silent way.
     then:
       - if:
           condition:
@@ -419,7 +390,6 @@ binary_sensor:
                 modbus_controller::ModbusController *controller = id(${modbus_ctrl_id});
                 modbus_controller::ModbusCommandItem set_mode_slowfirst_command = modbus_controller::ModbusCommandItem::create_write_single_command(controller, 0, 1);
                 modbus_controller::ModbusCommandItem set_mode_command = modbus_controller::ModbusCommandItem::create_write_single_command(controller, 0, 0);
-                // az on_data_func-okat bennük a queue_command-okkal fordított sorrendbe kell előkészíteni mint ahogy futni fognak !!! queue_command elszáll utána nincs semmi
                 set_mode_slowfirst_command.on_data_func = [=](modbus_controller::ModbusRegisterType register_type, uint16_t start_address, const std::vector<uint8_t> &data) {
                   ESP_LOGD("ModbusLambda", "Slow down mode 1 succes - Queuing set mode 0 command");
                   controller->queue_command(set_mode_command);
