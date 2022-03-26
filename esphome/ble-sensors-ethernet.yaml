@@ -1,4 +1,4 @@
-# Make BLE bridge for Home Assistant with ESPHome
+# BLE bridge for Home Assistant with ESPHome
 #
 # Gather data from several Xiaomi LYWSD03MMC sensors. Tested with 10 pieces, all running pvvx firmware with default settings.
 # Use Wireless-Tag WT32-ETH01 board for Ethernet connection to the network, to offload ESP32's radio module from WiFi traffic, 
@@ -8,8 +8,8 @@
 # Monitor memory usage and provide safe mode boot to be able to OTA firmware even with lots of sensors.
 # Use traffic encryption between ESPHome and Home Assistant, use native API.
 #
-# Note: Avoid placing the ESP node in racks, close to switches or other network equipment as EMI interference may degrade 
-# signal reception.
+# Note: Avoid placing the ESP node in racks, close to switches or other network equipment as EMI interference will degrade 
+# bluetooth signal reception.
 
 substitutions:
   device_name: ble-sensors
