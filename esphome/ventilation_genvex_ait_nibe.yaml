@@ -1,6 +1,6 @@
 # Heat Recovery Ventilation system control via MODBUS protocol for Genvex ECO 375, Nibe ERS 10-500, Alpha-Innotec LG 300 ECO B(E) 
 #
-# - Veitlation unit containing Optima 260 controller board, MODBUS enabled at 19600 baud
+# - Veitlation unit containing Optima 260 (ES 960C) controller board, MODBUS enabled at 19600 baud
 # - MAX485 RS485 transceiver module to connect to MODBUS
 # - Olimex ESP32-EVB board for Ethernet connection to the network 
 # - Using traffic encryption between ESPHome and Home Assistant, with native API.
