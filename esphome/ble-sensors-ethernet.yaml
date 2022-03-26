@@ -169,6 +169,7 @@ sensor:
 - platform: uptime
   name: ${friendly_name} bridge uptime
 
+
 binary_sensor:
 - platform: status
   name: ${friendly_name} bridge network
