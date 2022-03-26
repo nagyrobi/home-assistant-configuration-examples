@@ -567,7 +567,7 @@ text_sensor:
 select:
 - platform: modbus_controller
   modbus_controller_id: ${modbus_ctrl_id}
-  name: ${friendly_name} fan intensity
+  name: ${friendly_name} Speed
   icon: "mdi:fan"
   id: genvex_sel
   address: 0
