@@ -4,9 +4,10 @@
 # Use Wireless-Tag WT32-ETH01 board for Ethernet connection to the network, to offload ESP32's radio module from WiFi traffic, 
 # to gain performance on BLE side. Receiving multiple BLE broadcasts per minute from each sensor.
 #
-# Calculate absolute humidity and dew point, and average temperatures of all rooms.
-# Monitor memory usage and provide safe mode boot to be able to OTA firmware even with lots of sensors.
-# Use traffic encryption between ESPHome and Home Assistant, use native API.
+# - Use BLE Presence sensors (as internal) to set the temperature sensors unavailable if RF is lost (battery exhausted or interference)
+# - Calculate absolute humidity and dew point, and average temperatures of all rooms.
+# - Monitor memory usage and provide safe mode boot to be able to OTA firmware even with lots of sensors.
+# - Use traffic encryption between ESPHome and Home Assistant, with native API.
 #
 # Note: Avoid placing the ESP node in racks, close to switches or other network equipment as EMI interference will degrade 
 # bluetooth signal reception.
@@ -171,6 +172,23 @@ sensor:
 
 
 binary_sensor:
+- platform: ble_presence
+  mac_address: "AA:BB:CC:DD:EE:FF"
+  id: th_room1_present
+  on_release:
+      then:
+        - sensor.template.publish:
+            id: th_room1_temp
+            state: nan
+- platform: ble_presence
+  mac_address: "FF:EE:DD:CC:BB:AA"
+  id: th_room2_present
+  on_release:
+      then:
+        - sensor.template.publish:
+            id: th_room2_temp
+            state: nan
+
 - platform: status
   name: ${friendly_name} bridge network
 
