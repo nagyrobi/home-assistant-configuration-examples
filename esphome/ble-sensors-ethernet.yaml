@@ -50,10 +50,14 @@ ethernet:
     subnet: 255.255.255.0
   use_address: ${device_ip}
 
+button:
+- platform: safe_mode # boot in this mode to be able to OTA with many BLE sensors
+  name: ${friendly_name} bridge safe mode boot
+
 esp32_ble_tracker:
-  scan_parameters:
-    interval: 5s
-    window: 5s
+  scan_parameters: # interval = window to maximize catching chances
+    interval: 5s # try with 300ms if you don't have LAN module
+    window: 5s # try with 300ms if you don't have LAN module
     active: false
 
 sensor:
@@ -72,19 +76,21 @@ sensor:
   battery_level:
     name: ${friendly_name} Room 1 sensor battery percent
     filters:
-      - throttle: 1800s
+      - throttle: 1800s # it's more than enough to have a value each half an hour
   battery_voltage:
     name: ${friendly_name} Room 1 sensor battery voltage
     icon: "mdi:plus-circle-outline"
     filters:
-      - throttle: 1800s
+      - throttle: 1800s # it's more than enough to have a value each half an hour
 - platform: ble_rssi
   mac_address: "AA:BB:CC:DD:EE:FF"
   name: ${friendly_name} Room 1 sensor RSSI
   entity_category: diagnostic
   filters:
-    - throttle: 180s
-  on_raw_value:
+    - throttle: 180s # it's enough to have a value every 3 minutes
+  on_raw_value: 
+  # if data from the mac_address above is not received, ble_rssi sensor is unavailable. 
+  # Lambda below sets temperature and humidity also to unavailable in this case
     - lambda: |-
         if (std::isnan(x)) {
           id(th_room1_temp).publish_state(NAN);
@@ -153,6 +159,7 @@ sensor:
   update_interval: 30s
   accuracy_decimals: 2
   lambda: |-
+  # only sensors which are available are taken into calculation of average
       float sum = 0;
       uint16_t cnt = 0;
       if (!std::isnan(id(th_room1_temp).state)) {
@@ -182,11 +189,4 @@ sensor:
 
 binary_sensor:
 - platform: status
-  name: ${friendly_name} bridge network
-
-button:
-- platform: safe_mode
-  name: ${friendly_name} bridge safe mode boot
-
-
-
+  name: ${friendly_name} bridge API connected
