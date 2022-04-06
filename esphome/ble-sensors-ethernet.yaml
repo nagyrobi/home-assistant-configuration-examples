@@ -1,7 +1,7 @@
 # BLE bridge for Home Assistant with ESPHome
 #
 # Gather data from several Xiaomi LYWSD03MMC sensors. Tested with 10 pieces, all running pvvx firmware with default settings.
-# Use Wireless-Tag WT32-ETH01 board for Ethernet connection to the network, to offload ESP32's radio module from WiFi traffic, 
+# Use Olimex ESP32-POE-ISO board for Ethernet connection to the network, to offload ESP32's radio module from WiFi traffic, 
 # to gain performance on BLE side. Receiving multiple BLE broadcasts per minute from each sensor.
 #
 # - Calculate absolute humidity and dew point, and average temperatures of all rooms.
@@ -16,7 +16,7 @@ substitutions:
   device_name: ble-sensors
   friendly_name: "BLE"
   device_ip: 192.168.1.15
-  device_description: "LYWSD03MMC bridge WT32-ETH01"
+  device_description: "LYWSD03MMC bridge ESP32-POE-ISO"
 
 esphome:
   name: ${device_name}
@@ -41,9 +41,9 @@ ethernet:
   type: LAN8720
   mdc_pin: GPIO23
   mdio_pin: GPIO18
-  clk_mode: GPIO0_IN
-  phy_addr: 1
-  power_pin: GPIO16
+  clk_mode: GPIO17_OUT
+  phy_addr: 0
+  power_pin: GPIO12
   manual_ip:
     static_ip: ${device_ip}
     gateway: 192.168.1.1
@@ -67,12 +67,16 @@ sensor:
     name: ${friendly_name} Room 1 Temperature
     id: th_room1_temp
 #    filters: # optionally uncomment to make graphs smoother
-#    - exponential_moving_average:
-#        send_every: 5
-#        alpha: 0.3
+#      - quantile:
+#          window_size: 50
+#          send_every: 10
+#          quantile: .5
+#      - throttle: 30s
   humidity:
     name: ${friendly_name} Room 1 Humidity
     id: th_room1_hum
+    filters:
+      - throttle: 60s
   battery_level:
     name: ${friendly_name} Room 1 sensor battery percent
     filters:
@@ -105,6 +109,8 @@ sensor:
   humidity:
     name: ${friendly_name} Room 2 Humidity
     id: th_room2_hum
+    filters:
+      - throttle: 60s
   battery_level:
     name: ${friendly_name} Room 2 sensor battery percent
     filters:
