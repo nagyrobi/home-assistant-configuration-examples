@@ -8,6 +8,7 @@
       command_off: "curl -k --silent -H 'Content-Type:application/xml' -X PUT -d '<ExternalDevice><SupplementLight><enabled>false</enabled></SupplementLight></ExternalDevice>' http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass"
       command_state: "curl -k --silent -X GET http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass | grep -oP '(?<=enabled>).*?(?=</enabled>)'"
       value_template: "{{ value == 'true' }}"
+      unique_id: "switch_led_camera_auto"
 
     camera_led_timing: # for cases when 'LED On' is set to 'Timing' in camera web interface
       friendly_name: Camera ColorVU LED TIMING mode # command_line switch doesn't support templates, unfortunately, so after switching, you need to re-run the updating shell command again to overwrite the dummy values set here... :(
@@ -15,3 +16,4 @@
       command_off: "curl -k --silent -H 'Content-Type:application/xml' -X PUT -d '<ExternalDevice><SupplementLight><enabled>false</enabled><mode>schedule</mode><Schedule><TimeRange><beginTime>20:00:00</beginTime><endTime>06:00:00</endTime></TimeRange></Schedule></SupplementLight></ExternalDevice>' http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass"
       command_state: "curl -k --silent -X GET http://192.168.1.64/ISAPI/System/externalDevice --digest -u user:pass | grep -oP '(?<=enabled>).*?(?=</enabled>)'"
       value_template: "{{ value == 'true' }}"
+      unique_id: "switch_led_camera_timing"
