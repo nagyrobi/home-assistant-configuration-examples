@@ -2,11 +2,13 @@
   sensors:
     weather_forecast_temperature:
       friendly_name: "Temperature from weather forecast"
+      unique_id: weather_forecast_temperature
       unit_of_measurement: '°C'
-      value_template: "{{ state_attr('weather.openweathermap','forecast')[1]['temperature'] }}"
+      value_template: "{{ state_attr('weather.openweathermap','forecast')[0]['temperature'] }}"
 
 #    average_rooms_temperature:  # Not too good like this, because it doesn't show accurate values when a sensor is missing/unavailable. Using 'average' csutom component (https://github.com/Limych/ha-average) is more accurate as it handles this situation.
 #      unit_of_measurement: '°C'
+#      unique_id: average_rooms_temperature
 #      friendly_name: "Average rooms temperature"
 #      value_template: >-
 #        {{ ((float(default=0)(states.sensor.room1_temperature.state) + float(default=0)(states.sensor.room2_temperature.state) + float(default=0)(states.sensor.room3_temperature.state) + float(default=0)(states.sensor.room4_temperature.state)) / 4) | round(2) }}

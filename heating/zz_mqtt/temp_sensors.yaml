@@ -1,18 +1,28 @@
-##### an MQTT sensor running Tasmota firmware
+##### MQTT temp sensor examples (Tasmota)
 
-  - platform: mqtt
-    name: "Room1 temperature"
+sensor:
+  - name: "Outdoors temperature"
+    state_topic: "tele/outdoors/SENSOR"
+    value_template: "{{ value_json['DS18B20'].Temperature }}"
+    unit_of_measurement: "°C"
+    force_update: true
+    availability_topic: "tele/outdoors/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    unique_id: temp_out
+
+  - name: "Room1 temperature"
     state_topic: "tele/room1/SENSOR"
-    value_template: "{{ value_json['DS18B20-1'].Temperature }}"
+    value_template: "{{ value_json['DS18B20'].Temperature }}"
     unit_of_measurement: "°C"
     device_class: temperature
     force_update: true
     availability_topic: "tele/room1/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
+    unique_id: temp_room1
 
-  - platform: mqtt
-    name: "Room2 temperature"
+  - name: "Room2 temperature"
     state_topic: "tele/room2/SENSOR"
     value_template: "{{ value_json['DS18B20'].Temperature }}"
     unit_of_measurement: "°C"
@@ -21,9 +31,9 @@
     availability_topic: "tele/room2/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
+    unique_id: temp_room2
 
-  - platform: mqtt
-    name: "Room3 temperature"
+  - name: "Room3 temperature"
     state_topic: "tele/room3/SENSOR"
     value_template: "{{ value_json['DS18B20'].Temperature }}"
     unit_of_measurement: "°C"
@@ -32,9 +42,9 @@
     availability_topic: "tele/room3/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
+    unique_id: temp_room3
 
-  - platform: mqtt
-    name: "Room4 temperature"
+  - name: "Room4 temperature"
     state_topic: "tele/room4/SENSOR"
     value_template: "{{ value_json['DS18B20'].Temperature }}"
     unit_of_measurement: "°C"
@@ -43,13 +53,4 @@
     availability_topic: "tele/room4/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
-
-
-##### average custom component https://github.com/Limych/ha-average
-  - platform: average
-    name: 'Average rooms temperature'
-    entities:
-      - sensor.room1_temperature
-      - sensor.room2_temperature
-      - sensor.room3_temperature
-      - sensor.room4_temperature
+    unique_id: temp_room4

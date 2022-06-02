@@ -7,4 +7,4 @@ input_datetime: !include zz_etc/input_datetime.yaml
 input_boolean: !include zz_etc/input_boolean.yaml
 input_number: !include zz_etc/input_number.yaml
 group: !include zz_etc/groups.yaml
-
+mqtt: !include_dir_merge_named zz_mqtt/

@@ -1,0 +1,8 @@
+##### average custom component https://github.com/Limych/ha-average
+  - platform: average
+    name: 'Average rooms temperature'
+    entities:
+      - sensor.room1_temperature
+      - sensor.room2_temperature
+      - sensor.room3_temperature
+      - sensor.room4_temperature

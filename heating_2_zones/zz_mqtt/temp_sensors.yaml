@@ -1,0 +1,34 @@
+##### MQTT temp sensor examples (Tasmota)
+
+sensor:
+  - name: "Outdoors temperature"
+    state_topic: "tele/outdoors/SENSOR"
+    value_template: "{{ value_json['DS18B20'].Temperature }}"
+    unit_of_measurement: "°C"
+    force_update: true
+    availability_topic: "tele/outdoors/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    unique_id: temp_out
+
+  - name: "Room 1"
+    state_topic: "tele/room1/SENSOR"
+    value_template: "{{ value_json['DS18B20'].Temperature }}"
+    unit_of_measurement: "°C"
+    device_class: temperature
+    force_update: true
+    availability_topic: "tele/room1/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    unique_id: temp_room1
+
+  - name: "Room 2"
+    state_topic: "tele/room2/SENSOR"
+    value_template: "{{ value_json['DS18B20'].Temperature }}"
+    unit_of_measurement: "°C"
+    device_class: temperature
+    force_update: true
+    availability_topic: "tele/room2/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    unique_id: temp_room2

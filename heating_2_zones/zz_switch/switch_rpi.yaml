@@ -1,4 +1,4 @@
-##### Raspberry PI with relay hat
+##### Raspberry PI with relay hat https://github.com/thecode/ha-rpi_gpio
 
 - platform: rpi_gpio
   ports:

@@ -1,7 +1,7 @@
-##### an MQTT switch running Tasmota firmware
+##### MQTT switch example (Tasmota)
 
-- platform: mqtt
-  name: "Heater 1"
+switch:
+- name: "Heater 1"
   state_topic: "stat/heaterswitch/POWER1"
   command_topic: "cmnd/heaterswitch/POWER1"
   availability_topic: "tele/heaterswitch/LWT"
@@ -11,9 +11,9 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: false
+  unique_id: switch_heater1
 
-- platform: mqtt
-  name: "Heater 2"
+- name: "Heater 2"
   state_topic: "stat/heaterswitch/POWER2"
   command_topic: "cmnd/heaterswitch/POWER2"
   availability_topic: "tele/heaterswitch/LWT"
@@ -23,9 +23,9 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: false
+  unique_id: switch_heater2
 
-- platform: mqtt
-  name: "Main pump"
+- name: "Main pump"
   state_topic: "stat/heaterswitch/POWER3"
   command_topic: "cmnd/heaterswitch/POWER3"
   availability_topic: "tele/heaterswitch/LWT"
@@ -35,3 +35,4 @@
   payload_available: "Online"
   payload_not_available: "Offline"
   retain: false
+  unique_id: switch_heater3
