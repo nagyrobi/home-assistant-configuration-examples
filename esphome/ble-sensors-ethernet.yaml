@@ -9,8 +9,8 @@
 # - Use the RSSI sensors to set the temperature/humidity sensors unavailable if RF is lost (battery exhausted or interference)
 # - Use traffic encryption between ESPHome and Home Assistant, with native API.
 #
-# Note: Avoid placing the ESP node in racks, close to switches or other network equipment as EMI interference will degrade 
-# bluetooth signal reception.
+# Note: Avoid placing the ESP node in racks, close to routers/switches or other network equipment as EMI interference will degrade 
+# bluetooth signal reception. For best results keep at least 3 meters distance from any other such equipment.
 
 substitutions:
   device_name: ble-sensors
