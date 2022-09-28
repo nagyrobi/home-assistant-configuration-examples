@@ -1,0 +1,196 @@
+# Sonoff RF Bridge with many configured Time Based RF covers.
+# 
+# The covers can be controlled with RF codes decoded with 'portisch bit bucket converter'. Up/Down/Stop each have a different code.
+# ESPHome cand send these codes out as raw with rf_bridge component, and time based covers can be set up with actions to send the 
+# codes out for each command.
+
+# Operating the covers one by one, by hand, from the UI - everything is fine. Each cover opens or closes as it should.
+# The problem occurs when using service calls in HA to operate multiple covers at once: only the first one in the list reacts, 
+# the others don't move.
+
+# I found by trial and error is that the cover motors simply don't accept the RF codes transmitted by the RF Bridge if they are sent 
+# too fast after each other. I found the same using Tasmota too. Looks loke the cover motors need at least 600-700ms of silence between 
+# code transmissions to be able to recognize them. 
+
+# The solution below handles this, by building up a queue of raw RF codes and sending them out one after the other with a configurable
+# delay between them. If only one cover is operated, no delay occurs. Delay is only added to the next commands coming from a list of 
+# covers which have to be operated at once from Home Assistant. This is transparent to the system, which will still look like they 
+# operate simultaneously. Thanks to @ssieb for the vector queue solution.
+
+substitutions:
+  device_name: sonoff-rf-bridge
+  friendly_name: "RF Bridge"
+  device_ip: 192.168.81.22
+
+esphome:
+  name: ${device_name}
+  platform: ESP8266
+  board: esp01_1m
+  esp8266_restore_from_flash: true
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: ${device_ip}
+    gateway: 192.168.81.254
+    subnet: 255.255.255.0
+  use_address: ${device_ip}
+
+logger:
+  baud_rate: 0
+  level: INFO
+
+uart:
+  tx_pin: GPIO01
+  rx_pin: GPIO03
+  baud_rate: 19200
+
+rf_bridge:
+
+api:
+  reboot_timeout: 15min
+  password: !secret api_password
+  encryption:
+    key: !secret encryption_key
+  services:
+    - service: send_rf_raw
+      variables:
+        raw: string
+      then:
+        - rf_bridge.send_raw:
+            raw: !lambda 'return raw;'
+
+ota:
+  password: !secret ota_password
+
+sensor:
+- platform: wifi_signal
+  name: ${friendly_name} WiFi signal
+  update_interval: 120s
+- platform: uptime
+  name: ${friendly_name} uptime
+- platform: template
+  name: ${friendly_name} free memory
+  lambda: return ESP.getFreeHeap();
+  icon: "mdi:memory"
+  entity_category: diagnostic
+  state_class: measurement
+  unit_of_measurement: "b"
+  update_interval: 60s
+
+status_led:
+  pin:
+    number: GPIO13
+    inverted: true
+
+binary_sensor:
+- platform: status
+  name: ${friendly_name} network
+
+button:
+- platform: restart
+  name: ${friendly_name} restart
+- platform: safe_mode
+  name: ${friendly_name} safe mode boot
+
+globals:
+- id: rf_code_queue
+  type: 'std::vector<std::string>'
+
+number:
+- platform: template
+  name: Delay commands
+  icon: mdi:clock-fast
+  entity_category: config
+  optimistic: true
+  restore_value: true
+  initial_value: 750
+  unit_of_measurement: "ms"
+  id: queue_delay
+  min_value: 10
+  max_value: 1000
+  step: 50
+  mode: box
+
+script:
+- id: rf_transmitter_queue
+  mode: single
+  then:
+    while:
+      condition:
+        lambda: 'return !id(rf_code_queue).empty();'
+      then:
+         - rf_bridge.send_raw:
+             raw: !lambda |-
+               std::string rf_code = id(rf_code_queue).front();
+               id(rf_code_queue).erase(id(rf_code_queue).begin());
+               return rf_code;
+         - delay: !lambda 'return id(queue_delay).state;'
+
+cover:
+  - platform: time_based
+    name: 'My Room 1'
+    disabled_by_default: false
+    device_class: shutter
+    assumed_state: true
+    has_built_in_endstop: true
+
+    close_action:
+      - lambda: id(rf_code_queue).push_back("AAB0XXXXX....XXXXXXXXXX");
+      - script.execute: rf_transmitter_queue
+    close_duration: 26s
+
+    stop_action:
+      - lambda: id(rf_code_queue).push_back("AAB0YXXXX....XXXXXXXXXX");
+      - script.execute: rf_transmitter_queue
+
+    open_action:
+      - lambda: id(rf_code_queue).push_back("AAB0ZXXXX....XXXXXXXXXX");
+      - script.execute: rf_transmitter_queue
+    open_duration: 27s
+
+
+  - platform: time_based
+    name: 'My Room 2'
+    disabled_by_default: false
+    device_class: shutter
+    assumed_state: true
+    has_built_in_endstop: true
+
+    close_action:
+      - lambda: id(rf_code_queue).push_back("AAB0XXXXX....XXXXXXXXXX");
+      - script.execute: rf_transmitter_queue
+    close_duration: 26s
+
+    stop_action:
+      - lambda: id(rf_code_queue).push_back("AAB0YXXXX....XXXXXXXXXX");
+      - script.execute: rf_transmitter_queue
+
+    open_action:
+      - lambda: id(rf_code_queue).push_back("AAB0ZXXXX....XXXXXXXXXX");
+      - script.execute: rf_transmitter_queue
+    open_duration: 27s
+
+
+
+  - platform: time_based
+    name: 'My Room 3'
+    disabled_by_default: false
+    device_class: shutter
+    assumed_state: true
+    has_built_in_endstop: true
+
+    close_action:
+      - lambda: id(rf_code_queue).push_back("AAB0XXXXX....XXXXXXXXXX");
+      - script.execute: rf_transmitter_queue
+    close_duration: 26s
+
+    stop_action:
+      - lambda: id(rf_code_queue).push_back("AAB0YXXXX....XXXXXXXXXX");
+      - script.execute: rf_transmitter_queue
+
+    open_action:
+      - lambda: id(rf_code_queue).push_back("AAB0ZXXXX....XXXXXXXXXX");
+      - script.execute: rf_transmitter_queue
+    open_duration: 27s

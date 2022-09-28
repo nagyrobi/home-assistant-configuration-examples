@@ -1,4 +1,5 @@
 # BLE bridge for Home Assistant with ESPHome
+# (!not! bluetooth_proxy)
 #
 # Gather data from several Xiaomi LYWSD03MMC sensors. Tested with 10 pieces, all running pvvx firmware with default settings.
 # Use Olimex ESP32-POE-ISO board for Ethernet connection to the network, to offload ESP32's radio module from WiFi traffic, 
