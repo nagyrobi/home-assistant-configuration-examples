@@ -53,13 +53,6 @@ api:
   password: !secret api_password
   encryption:
     key: !secret encryption_key
-  services:
-    - service: send_rf_raw
-      variables:
-        raw: string
-      then:
-        - rf_bridge.send_raw:
-            raw: !lambda 'return raw;'
 
 ota:
   password: !secret ota_password
@@ -91,12 +84,6 @@ binary_sensor:
 button:
 - platform: restart
   name: ${friendly_name} restart
-- platform: safe_mode
-  name: ${friendly_name} safe mode boot
-
-globals:
-- id: rf_code_queue
-  type: 'std::vector<std::string>'
 
 number:
 - platform: template
@@ -112,6 +99,10 @@ number:
   max_value: 1000
   step: 50
   mode: box
+
+globals:
+- id: rf_code_queue
+  type: 'std::vector<std::string>'
 
 script:
 - id: rf_transmitter_queue
@@ -171,7 +162,6 @@ cover:
       - lambda: id(rf_code_queue).push_back("AAB0ZXXXX....XXXXXXXXXX");
       - script.execute: rf_transmitter_queue
     open_duration: 27s
-
 
 
   - platform: time_based
